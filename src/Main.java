@@ -1,5 +1,6 @@
 import javax.swing.*;
 //main class the entry point of the application
+//
 public class Main extends JFrame {
     Main(){
         this.setContentPane(new Index().getMainPanel());
