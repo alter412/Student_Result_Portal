@@ -4,27 +4,43 @@ import java.awt.event.ActionListener;
 import java.sql.*;
 
 public class AddResult {
+    // left panel
     private JPanel leftPanel;
+    // add a Student Button
     private JButton addAStudentButton;
+    // add result Button
     private JButton addResultButton;
+    // All registered students Button
     private JButton registeredStudentsButton;
+    // All Students result
     private JButton allStudentsResultButton;
+    // Logout Button
     private JButton logoutButton;
+    // Main Panel
     private JPanel mainPanel;
+    // Roll number TextField
     private JTextField rollNumberField;
+    // Physics Marks TextField
     private JTextField physicsField;
+    // Maths Marks  textField
     private JTextField mathsField;
+    // em Marks textField
     private JTextField emField;
+    // os Marks textField
     private JTextField osField;
+    // dbms Marks TextField
     private JTextField dbmsField;
+    // Label for respective textFields
     private JLabel roll;
     private JLabel physicsLabel;
     private JLabel mathsLabel;
     private JLabel emLabel;
     private JLabel osLabel;
     private JLabel dbmsLabel;
+    // Save button to save result in Database
     private JButton save;
     AddResult(){
+        //ActionListener for Add a Student Button
         addAStudentButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
