@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.sql.*;
 import java.util.Arrays;
 
 public class AdminLogin {
@@ -25,20 +26,41 @@ public class AdminLogin {
                 // fetching the username and password
                 String user = username.getText();
                 String pass = new String(password.getPassword());
-                // finding the root component
-                JFrame c = (JFrame) SwingUtilities.getRoot(AdminLogin.this.loginPanel);
-                if(user.equals("admin") && pass.equals("password")){
-                    c.getContentPane().removeAll();
-                    c.setContentPane(new AdminHome().getMainPanel());
-                    c.revalidate();
-                }else{
-                    JOptionPane.showMessageDialog(null,"Incorrect Username or Password");
-                   // resetting the username and password textfields
-                    username.setText("");
-                    password.setText("");
+                Connection con = null;
+                // Establishing database connection
+                try {
+                    // Dynamic loading of driver class
+                    Class.forName("com.mysql.cj.jdbc.Driver");
+                    con = DriverManager.getConnection("jdbc:mysql://localhost:3306/srp","root","MySql@123");
+                    PreparedStatement pstm = con.prepareStatement("Select * from auth where username=? and password=?");
+                    pstm.setString(1,user);
+                    pstm.setString(2,pass);
+                    ResultSet rs=pstm.executeQuery();
+                    // if a record is present with username and password then the login is successful
+                    if(rs.next()){
+                        // finding the root component
+                        JFrame c = (JFrame) SwingUtilities.getRoot(AdminLogin.this.loginPanel);
+                        c.getContentPane().removeAll();
+                        c.setContentPane(new AdminHome().getMainPanel());
+                        c.revalidate();
+                    } else{
+                        JOptionPane.showMessageDialog(null,"Incorrect Username or Password");
+                        // resetting the username and password textfields
+                        username.setText("");
+                        password.setText("");
+                    }
+                } catch (ClassNotFoundException ex) {
+                    throw new RuntimeException(ex);
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }finally {
+                    try {
+                        // closing the database connection
+                        con.close();
+                    } catch (SQLException ex) {
+                        throw new RuntimeException(ex);
+                    }
                 }
-
-
 
             }
         });
