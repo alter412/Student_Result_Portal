@@ -127,7 +127,9 @@
             <preferred-size width="150" height="50"/>
           </grid>
         </constraints>
-        <properties/>
+        <properties>
+          <font name="SansSerif" size="20" style="1"/>
+        </properties>
       </component>
     </children>
   </grid>

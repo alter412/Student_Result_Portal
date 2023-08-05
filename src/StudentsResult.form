@@ -129,6 +129,7 @@
         </constraints>
         <properties>
           <autoCreateRowSorter value="true"/>
+          <font name="SansSerif" size="20" style="1"/>
         </properties>
       </component>
     </children>
