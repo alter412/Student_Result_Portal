@@ -1,3 +1,4 @@
+// using the rs2xml jar file to populate the jtable with ResultSet
 import net.proteanit.sql.DbUtils;
 
 import javax.swing.*;
@@ -6,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.sql.*;
 
 public class RegisteredStudents {
+    // declaration of buttons,panels,table
     private JPanel mainPanel;
     private JPanel leftPanel;
     private JButton addAStudentButton;
@@ -15,12 +17,15 @@ public class RegisteredStudents {
     private JButton logoutButton;
     private JTable table1;
     RegisteredStudents(){
+        // Establishing database connection
         Connection con=null;
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/srp","root","MySql@123");
             PreparedStatement pstm = con.prepareStatement("select * from students");
             ResultSet rs = pstm.executeQuery();
+            // populating the JTable with ResultSet using rs2xml utility
+            // which sets the data model of the JTable
             table1.setModel(DbUtils.resultSetToTableModel(rs));
 
         } catch (ClassNotFoundException e) {
@@ -28,6 +33,7 @@ public class RegisteredStudents {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }finally {
+            // closing the connection
             try {
                 con.close();
             } catch (SQLException e) {
@@ -36,7 +42,7 @@ public class RegisteredStudents {
         }
 
 
-
+        //Adding ActionListener for respective Buttons
         addAStudentButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -83,6 +89,7 @@ public class RegisteredStudents {
             }
         });
     }
+    // Getter function to return the main panel
     JPanel getMainPanel(){
         return this.mainPanel;
     }

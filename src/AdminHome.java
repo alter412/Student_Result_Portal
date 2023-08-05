@@ -4,6 +4,7 @@ import java.awt.event.ActionListener;
 import java.sql.*;
 
 public class AdminHome {
+    // Variable declarations for buttons, panels, textfields, different components
     private JPanel mainPanel;
     private JButton addAStudentButton;
     private JButton addResultButton;
@@ -20,6 +21,7 @@ public class AdminHome {
     private JPanel leftPanel;
 
     AdminHome(){
+        //ActionListener  add a Student Button
         addAStudentButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -29,6 +31,7 @@ public class AdminHome {
                 c.revalidate();
             }
         });
+        //Adding ActionListener for respective Buttons
         addResultButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -56,6 +59,7 @@ public class AdminHome {
                 c.revalidate();
             }
         });
+        // LogOut Button ActionListener
         logoutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -65,9 +69,11 @@ public class AdminHome {
                 c.revalidate();
             }
         });
+        // Save Button ActionListener
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                // Fetching the filled data from the respective comboboxs,textfields
                 String course =  courseName.getSelectedItem().toString();
                 String branch = branchName.getSelectedItem().toString();
                 String rollNumber = roll.getText();
@@ -76,17 +82,23 @@ public class AdminHome {
                 String fatherName = father.getText();
                 Connection con=null;
                 try {
+                    // Setting DataBase Connection
+                    // Dynamic Loading of Driver Class
                     Class.forName("com.mysql.cj.jdbc.Driver");
+                    // Setting up the Connection using the URL, User, Password
                     con=DriverManager.getConnection("jdbc:mysql://localhost:3306/srp","root","MySql@123");
+                    // Preparing SQL statement for inserting record in the students table
                     PreparedStatement pstm = con.prepareStatement("Insert into students (course,branch,rollNumber,name,gender,fatherName) values (?,?,?,?,?,?)");
+                    // Setting the parameter Values
                     pstm.setString(1,course);
                     pstm.setString(2,branch);
                     pstm.setString(3,rollNumber);
                     pstm.setString(4,name);
                     pstm.setString(5,gender);
                     pstm.setString(6,fatherName);
-
+                    // executing the update query
                     pstm.executeUpdate();
+                    // Conformation message
                     JOptionPane.showMessageDialog(null,"Record added successfully.");
                 } catch (SQLException ex) {
                     JOptionPane.showMessageDialog(null,"Error Occured");
@@ -96,6 +108,7 @@ public class AdminHome {
                     throw new RuntimeException(ex);
                 }finally {
                     try {
+                        // closing the connection to free the resources
                         con.close();
                     } catch (SQLException ex) {
                         throw new RuntimeException(ex);
@@ -104,6 +117,7 @@ public class AdminHome {
             }
         });
     }
+    // Getter function to return the main panel
     JPanel getMainPanel(){
         return this.mainPanel;
     }

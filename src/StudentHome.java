@@ -4,6 +4,7 @@ import java.awt.event.ActionListener;
 import java.sql.*;
 
 public class StudentHome {
+    // declaration of the textfields, buttons, panels, labels
     private JPanel mainPanel;
     private JLabel courseLabel;
     private JTextField course;
@@ -46,7 +47,9 @@ public class StudentHome {
     private JTextField total;
     private JButton back;
     StudentHome(String roll){
+        // Setting roll number textfield using value which we get using parameterised constructor
         rollNumber.setText(roll);
+        // Establishing database connection
         Connection con = null;
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -55,6 +58,7 @@ public class StudentHome {
             pstm.setString(1,roll);
             ResultSet rs = pstm.executeQuery();
             if(rs.next()) {
+                // fetching the values from ResultSet to populate the respective textfields
                 String nameGet = rs.getString("name");
                 String courseGet = rs.getString("course");
                 String branchGet = rs.getString("branch");
@@ -66,7 +70,7 @@ public class StudentHome {
                 String osGet = rs.getString("os");
                 String emGet = rs.getString("em");
                 String dbmsGet = rs.getString("dbms");
-
+                // setting the textfields using above values
                 name.setText(nameGet);
                 course.setText(courseGet);
                 branch.setText(branchGet);
@@ -78,7 +82,7 @@ public class StudentHome {
                 os.setText(osGet);
                 em.setText(emGet);
                 dbms.setText(dbmsGet);
-
+                // calculating the total marks
                 int totalMarks = Integer.parseInt(physicsGet)+Integer.parseInt(mathsGet)+Integer.parseInt(osGet)+Integer.parseInt(emGet)+Integer.parseInt(dbmsGet);
                 total.setText(Integer.toString(totalMarks));
             }
@@ -88,12 +92,14 @@ public class StudentHome {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }finally {
+            // closing the connection
             try {
                 con.close();
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
         }
+        // ActionListener for back button
         back.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -104,7 +110,7 @@ public class StudentHome {
             }
         });
     }
-
+    // Getter function to return the main Panel
     JPanel getMainPanel(){
         return this.mainPanel;
     }
