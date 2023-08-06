@@ -4,6 +4,8 @@ import javax.swing.*;
 // last try
 public class Main extends JFrame {
     Main(){
+        // Setting the title of application
+        super("Student Result Portal");
         // sets the content to Index
         this.setContentPane(new Index().getMainPanel());
         // set the bounds
